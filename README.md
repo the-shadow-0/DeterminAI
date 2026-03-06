@@ -1,4 +1,4 @@
-# !DeterminAI
+# DeterminAI
 
 ![Python](https://img.shields.io/badge/python-{{PYTHON_VERSION}}-blue)
 ![TypeScript](https://img.shields.io/badge/typescript-{{TYPESCRIPT_VERSION}}-blue)
