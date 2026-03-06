@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Node / TypeScript
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Secrets
+*.key
+*.pem
+*.secret
+secrets.env
+
+# Local configs
+/config/local_settings.json
+/config/*.local.json
+
+# VSCode / IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Docker
+*.dockerignore
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db

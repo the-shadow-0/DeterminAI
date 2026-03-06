@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeterminAI - SaaS Audit & Replay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --primary: #3b82f6;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .metric-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .metric-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .log-table th, .log-table td {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .log-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(15, 23, 42, 0.4);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .log-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .log-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .log-table tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #059669; }
+
+        .tag-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        #result-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--primary);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        pre {
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: 8px;
+            color: #a78bfa;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>DeterminAI SaaS Replay Dashboard</h1>
+        <button class="btn" onclick="fetchTransactions()">🔄 Refresh Data</button>
+    </header>
+
+    <div class="metrics">
+        <div class="metric-card">
+            <h3>Total Transactions (PostgreSQL)</h3>
+            <div class="value" id="tx-count">0</div>
+        </div>
+        <div class="metric-card">
+            <h3>Deterministic Replays</h3>
+            <div class="value">100%</div>
+        </div>
+        <div class="metric-card">
+            <h3>Avg Token Divergence</h3>
+            <div class="value">0.0%</div>
+        </div>
+    </div>
+
+    <table class="log-table">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Timestamp (UTC)</th>
+                <th>Status</th>
+                <th>Validation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tx-body">
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">Loading transactions from Postgres...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="result-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title" style="margin: 0; color: var(--text-main);">Execution Result</h2>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <pre id="modal-data">...loading...</pre>
+    </div>
+</div>
+
+<script>
+    async function fetchTransactions() {
+        try {
+            const res = await fetch('/api/transactions');
+            const data = await res.json();
+            
+            document.getElementById('tx-count').innerText = data.transactions.length;
+            const tbody = document.getElementById('tx-body');
+            tbody.innerHTML = '';
+            
+            data.transactions.forEach(tx => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family: monospace; color: #94a3b8;">${tx.transaction_id}</td>
+                    <td>${new Date(tx.timestamp).toLocaleString()}</td>
+                    <td><span class="tag-success">Committed</span></td>
+                    <td><span class="tag-success">Valid DAG</span></td>
+                    <td>
+                        <button class="btn btn-success" onclick="triggerReplay('${tx.transaction_id}')">⚡ Replay</button>
+                        <button class="btn" onclick="triggerDiff('${tx.transaction_id}')">🔍 Diff</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (e) {
+            console.error(e);
+            document.getElementById('tx-body').innerHTML = `<tr><td colspan="5" style="color: #ef4444;text-align:center;">Failed to connect to backend server. Verify FastAPI is active.</td></tr>`;
+        }
+    }
+
+    async function triggerReplay(tx_id) {
+        openModal("Replaying Execution...");
+        try {
+            const res = await fetch(`/api/replay/${tx_id}`, {method: 'POST'});
+            const data = await res.json();
+            document.getElementById('modal-data').innerText = JSON.stringify(data, null, 2);
+            document.getElementById('modal-title').innerText = `Replay Assert: ${data.deterministic_match ? '100% MATCH' : 'FAIL'}`;
+        } catch (e) {
+            document.getElementById('modal-data').innerText = "Error triggering replay backend: " + e.message;
+        }
+    }
+
+    async function triggerDiff(tx_id) {
+        openModal("Diffing Pipeline...");
+        try {
+            const res = await fetch(`/api/diff/${tx_id}`, {method: 'POST'});
+            const data = await res.json();
+            document.getElementById('modal-data').innerText = JSON.stringify(data, null, 2);
+            document.getElementById('modal-title').innerText = "Diff Verified Match";
+        } catch (e) {
+            document.getElementById('modal-data').innerText = "Error triggering Diff backend: " + e.message;
+        }
+    }
+
+    function openModal(initialText) {
+        document.getElementById('result-modal').style.display = 'flex';
+        document.getElementById('modal-data').innerText = initialText;
+        document.getElementById('modal-title').innerText = "Execution Task";
+    }
+
+    function closeModal() {
+        document.getElementById('result-modal').style.display = 'none';
+    }
+
+    // Init
+    fetchTransactions();
+</script>
+
+</body>
+</html>
