@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DeterminAI
 
 ![Python](https://img.shields.io/badge/python-{{PYTHON_VERSION}}-blue)
