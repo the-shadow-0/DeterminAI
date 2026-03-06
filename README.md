@@ -220,9 +220,3 @@ We welcome contributions! 🙌
 This project is licensed under the **MIT** License © 2026 DeterminAI. 📜
 
 ---
-
-## ✅ Next steps (optional)
-
-- 🎨 Create a short `README_landing.md` (hero + 3 quick links) for the GitHub landing page.  
-- 🛠️ Generate a small script to replace `{{PLACEHOLDER}}` tokens from a `.env` file or environment variables.  
-- 🖼️ Add a PNG/SVG architecture diagram in `/docs/assets/` and reference it above the architecture section.
