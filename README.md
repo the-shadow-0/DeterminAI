@@ -6,7 +6,7 @@
 ![Build Status](https://img.shields.io/badge/build-{{BUILD_STATUS}}-brightgreen)
 ![Version](https://img.shields.io/badge/version-{{VERSION}}-blueviolet)
 
-**{{PROJECT_NAME}}** is a **deterministic, transactional AI execution engine** that provides **immutable, event-sourced workflows** for AI systems.  
+**{{DeterminAI}}** is a **deterministic, transactional AI execution engine** that provides **immutable, event-sourced workflows** for AI systems.  
 > Think of it as **Kubernetes for AI Execution**: deterministic, auditable, and scalable.
 
 ---
@@ -38,8 +38,8 @@
 ## ⚡ Quick Start
 
 ### 1. Requirements
-- Python {{PYTHON_VERSION}}+
-- Node / TypeScript {{TYPESCRIPT_VERSION}}+ (if using the TypeScript SDK)
+- Python 12+
+- Node / TypeScript + (if using the TypeScript SDK)
 - PostgreSQL (optional for event logs)
 
 ### 2. Install
