@@ -1,18 +1,3 @@
-# DeterminAI
-
-![Python](https://img.shields.io/badge/python-{{PYTHON_VERSION}}-blue)
-![TypeScript](https://img.shields.io/badge/typescript-{{TYPESCRIPT_VERSION}}-blue)
-![License {{LICENSE}}](https://img.shields.io/badge/license-{{LICENSE}}-green)
-![Build Status](https://img.shields.io/badge/build-{{BUILD_STATUS}}-brightgreen)
-![Version](https://img.shields.io/badge/version-{{VERSION}}-blueviolet)
-
-**{{DeterminAI}}** is a **deterministic, transactional AI execution engine** that provides **immutable, event-sourced workflows** for AI systems.  
-> Think of it as **Kubernetes for AI Execution**: deterministic, auditable, and scalable.
-
----
-
-## 🔹 Features
-=======
 # 🚀 DeterminAI ✨
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
