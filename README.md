@@ -1,6 +1,6 @@
 <div align="center">  
            
-# 🚀 DeterminAI ✨ 
+# 🚀 DeterminAI ✨  
 
 <br/>
 </div>
