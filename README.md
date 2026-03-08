@@ -1,5 +1,7 @@
 <div align="center">  
+           
 # 🚀 DeterminAI ✨ 
+
 </div>
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
